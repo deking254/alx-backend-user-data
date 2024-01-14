@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """filtering logs"""
-import re
+from re import sub
 
 
 def filter_datum(fields, redaction, message, separator):
     """returns the log message obfuscated"""
-    re.sub('','xxx', 'were')
     for field in fields:
         regex = '(?<={}=)[^{}]*'.format(field, separator)
-        re.sub(regex, redaction, message)
+        message = sub(regex, redaction, message)
     return message
