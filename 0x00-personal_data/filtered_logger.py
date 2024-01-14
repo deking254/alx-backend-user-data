@@ -34,5 +34,6 @@ class RedactingFormatter(logging.Formatter):
         record.message = filter_datum(self.fields, self.REDACTION,
                                       record.getMessage(), self.SEPARATOR)
         record.message = '; '.join(record.message.split(';'))
+        record.message = record.message.strip()
         return self.formatMessage(record)
         NotImplementedError
