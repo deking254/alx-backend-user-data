@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """filtering logs"""
 from re
+from typing import List
 
 
 def filter_datum(fields: List,
