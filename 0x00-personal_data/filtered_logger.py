@@ -5,6 +5,7 @@ import re
 
 def filter_datum(fields, redaction, message, separator):
     """returns the log message obfuscated"""
+    re.sub('','xxx', 'were')
     for field in fields:
         regex = '(?<={}=)[^{}]*'.format(field, separator)
         re.sub(regex, redaction, message)
