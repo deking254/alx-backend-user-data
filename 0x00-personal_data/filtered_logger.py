@@ -40,6 +40,7 @@ class RedactingFormatter(logging.Formatter):
 def get_logger() -> logging.Logger:
     """returns a logging.Logger object."""
     logger = logging.Logger("user_data")
+    logger.name = "user_data"
     logger.setLevel(logging.INFO)
     logger.propagate = False
     streemHandler = logging.StreamHandler().setFormatter(RedactingFormatter)
