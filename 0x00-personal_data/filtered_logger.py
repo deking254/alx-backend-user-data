@@ -45,7 +45,7 @@ def get_logger() -> logging.Logger:
     logger.name = "user_data"
     logger.setLevel(logging.INFO)
     logger.propagate = False
-    streemHandler = logging.StreamHandler().setFormatter(RedactingFormatter)
+    streemHandler = logging.StreamHandler().setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(streemHandler)
     return logger
 
@@ -55,5 +55,5 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
     host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
     database = os.getenv('PERSONAL_DATA_DB_NAME')
-    kwargs = {'user': user, 'password': password, 'host': host, 'database': database}
-    return  mysql.connector.connect(**kwargs)
+    kwargs = {'user': user, 'password': password, 'host': host, 'database': database, 'port': 3306}
+    return  mysql.connector.connection.MySQLConnection(**kwargs)
