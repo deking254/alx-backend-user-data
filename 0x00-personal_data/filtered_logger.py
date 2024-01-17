@@ -56,11 +56,5 @@ def get_db() -> mysql.connector.MySQLConnection:
     host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
     database = os.getenv('PERSONAL_DATA_DB_NAME')
     kwargs = {'host': host, 'password': password, 'database': database, 'user': user}
-    try:
-        connection_object = mysql.connector.connect(host=host, password='', database=database, user=user)
-        if connection_object.is_connected():
-            return connection_object
-        else:
-            print(connection_object)
-    except mysql.connector.Error as e:
-        print(e)
+    connection_object = mysql.connector.connect(**kwargs)
+    return connection_object
