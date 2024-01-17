@@ -49,7 +49,7 @@ def get_logger() -> logging.Logger:
     logger.addHandler(streemHandler)
     return logger
 
-def get_db():
+def get_db() -> mysql.connector.MySQLConnection:
     """returns a connector to the database"""
     user = os.getenv('PERSONAL_DATA_DB_USERNAME')
     password = os.getenv('PERSONAL_DATA_DB_PASSWORD')
