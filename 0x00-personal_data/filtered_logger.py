@@ -2,6 +2,8 @@
 """filtering logs of personal data"""
 import re
 import logging
+import os
+import mysql.connector
 from typing import List
 PII_FIELDS = ('name', 'email',  'phone', 'ssn', 'password')
 
@@ -46,3 +48,13 @@ def get_logger() -> logging.Logger:
     streemHandler = logging.StreamHandler().setFormatter(RedactingFormatter)
     logger.addHandler(streemHandler)
     return logger
+
+def get_db():
+    """returns a connector to the database"""
+    user = os.getenv('PERSONAL_DATA_DB_USERNAME')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD')
+    host = os.getenv('PERSONAL_DATA_DB_HOST')
+    database = os.getenv('PERSONAL_DATA_DB_NAME')
+    kwargs = {'host': host, 'password': password, 'database': database, 'user': user}
+    connection_object = mysql.connector.MySQLConnection(**kwargs)
+    return connection_object
