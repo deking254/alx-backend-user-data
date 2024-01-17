@@ -49,12 +49,20 @@ def get_logger() -> logging.Logger:
     logger.addHandler(streemHandler)
     return logger
 
-def get_db() -> mysql.connector.MySQLConnection:
-    """returns a connector to the database"""
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """returns a connector to the database
     user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
     password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
     host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
     database = os.getenv('PERSONAL_DATA_DB_NAME')
-    kwargs = {'host': host, 'password': password, 'database': database, 'user': user}
+    kwargs = {'user': user, 'password': password, 'host': host, 'database': database}
     connection_object = mysql.connector.connect(**kwargs)
-    return connection_object
+    return connection_object"""
+    """ Connection to MySQL environment """
+    db_connect = mysql.connector.connect(
+        user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+        password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+        host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+        database=os.getenv('PERSONAL_DATA_DB_NAME')
+    )
+    return db_connect
