@@ -31,6 +31,7 @@ def unauthorized_route() -> str:
     """testing the 401 error handler"""
     abort(401)
 
+
 @app_views.route('/forbidden')
 def forbiden() -> str:
     """forbidden resource endpoint"""
