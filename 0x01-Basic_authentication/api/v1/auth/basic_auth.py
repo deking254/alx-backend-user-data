@@ -8,7 +8,9 @@ from typing import TypeVar
 
 class BasicAuth(Auth):
     """handles basic authentication"""
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(self,
+                                            authorization_header: str
+                                            ) -> str:
         """extracts the second part of a basic header"""
         if authorization_header is not None:
             if type(authorization_header) == str:
@@ -17,7 +19,9 @@ class BasicAuth(Auth):
                     return item_after_space
         return None
 
-    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+    def decode_base64_authorization_header(self,
+                                           base64_authorization_header: str
+                                           ) -> str:
         """returns the decoded values of a base64 string"""
         if base64_authorization_header is not None:
             if type(base64_authorization_header) == str:
@@ -27,18 +31,42 @@ class BasicAuth(Auth):
                 except Exception:
                     pass
         return None
-    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> (str, str):
+
+    def extract_user_credentials(self,
+                                 decoded_base64_authorization_header: str
+                                 ) -> (str, str):
         """returns email and password from the Base64 decoded value"""
         if decoded_base64_authorization_header is not None:
             if type(decoded_base64_authorization_header) == str:
                 if decoded_base64_authorization_header.find(':') >= 0:
-                    email_and_pass = decoded_base64_authorization_header.split(':')
-                    return (email_and_pass[0], email_and_pass[1])
+                    ema_pas = decoded_base64_authorization_header.split(':')
+                    return (ema_pas[0], ema_pas[1])
         return (None, None)
 
-    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):
+    def user_object_from_credentials(self,
+                                     user_email: str, user_pwd: str
+                                     ) -> TypeVar('User'):
         """returns an instance of user with the email specified"""
         if user_email is not None:
             if type(user_email) == str:
-                return User.search({user_email})[0]
+                print(user_email)
+                users = User.search()
+                for user in users:
+                    user_json = user.to_json()
+                    if user_json.get('email') == user_email:
+                        if user.is_valid_password(user_pwd):
+                            return user
         return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """overloads Auth and retrieves the User instance for a request"""
+        auth_header = self.authorization_header()
+        if auth_header is not None:
+            base = self.extract_base64_authorization_header(auth_header)
+            if base is not None:
+                decoded = self.decode_base64_authorization_header(base)
+                if decoded is not None:
+                    creds = self. extract_user_credentials(decoded)
+                    if creds != (None, None):
+                        return self.user_object_from_credentials(creds[0],
+                                                                 creds[1])
