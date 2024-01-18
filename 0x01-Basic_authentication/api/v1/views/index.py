@@ -32,7 +32,7 @@ def unauthorized_route() -> str:
     abort(401)
 
 
-@app_views.route('/forbidden')
+@app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
 def forbiden() -> str:
     """forbidden resource endpoint"""
     abort(403)
