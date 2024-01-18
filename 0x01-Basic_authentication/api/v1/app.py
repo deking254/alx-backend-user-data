@@ -40,6 +40,7 @@ def no_access(error) -> str:
 
 @app.before_request
 def handle_request():
+    """handles the request before rendering"""
     if auth is not None:
         list_of_auth_endpoints = [
                 '/api/v1/status/',
