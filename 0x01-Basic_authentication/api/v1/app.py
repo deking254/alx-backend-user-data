@@ -20,6 +20,7 @@ if getenv('AUTH_TYPE') is not None:
     else:
         auth = Auth()
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -38,6 +39,7 @@ def no_access(error) -> str:
     """error handler for authenticated but no access to resource"""
     return jsonify({"error": "Forbidden"}), 403
 
+
 @app.before_request
 def handle_request():
     """handles the request before rendering"""
@@ -52,6 +54,7 @@ def handle_request():
             else:
                 if auth.current_user(request) is None:
                     abort(403)
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
