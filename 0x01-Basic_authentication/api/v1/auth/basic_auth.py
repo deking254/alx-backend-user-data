@@ -51,6 +51,7 @@ class BasicAuth(Auth):
             if type(user_email) == str:
                 if user_pwd is not None:
                     if type(user_pwd) == str:
+                        User.load_from_file()
                         if User.count() > 0:
                             users = User.search({'email': user_email})
                             if type(users) == list:
