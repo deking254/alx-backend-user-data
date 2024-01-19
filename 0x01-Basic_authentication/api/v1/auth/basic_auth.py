@@ -54,7 +54,8 @@ class BasicAuth(Auth):
                     user_json = user.to_json()
                     if user_json.get('email') == user_email:
                         if user.is_valid_password(user_pwd):
-                            return user
+                            if user._password == user_pwd:
+                                return user
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
