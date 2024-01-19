@@ -52,9 +52,12 @@ def handle_request():
         list_of_auth_endpoints = [
                 '/api/v1/status/',
                 '/api/v1/unauthorized/',
+                '/api/v1/auth_session/login/',
                 '/api/v1/forbidden/']
         if auth.require_auth(request.path, list_of_auth_endpoints):
-            if auth.authorization_header(request) is None:
+            a = auth.authorization_header(request)
+            b = auth.session_cookie(request)
+            if a is None and b is None:
                 abort(401)
             else:
                 if auth.current_user(request) is None:
