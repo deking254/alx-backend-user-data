@@ -49,7 +49,6 @@ class BasicAuth(Auth):
         """returns an instance of user with the email specified"""
         if user_email is not None:
             if type(user_email) == str:
-                print(user_email)
                 users = User.search()
                 for user in users:
                     user_json = user.to_json()
