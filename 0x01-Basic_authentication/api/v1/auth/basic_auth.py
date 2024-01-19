@@ -49,13 +49,15 @@ class BasicAuth(Auth):
         """returns an instance of user with the email specified"""
         if user_email is not None:
             if type(user_email) == str:
-                users = User.search()
-                for user in users:
-                    user_json = user.to_json()
-                    if user_json.get('email') == user_email:
-                        if user.is_valid_password(user_pwd):
-                            if user._password == user_pwd:
-                                return user
+                if user_pwd is not None:
+                    if type(user_pwd) == str:
+                        users = User.search()
+                        if len(users) > 0:
+                            for user in users:
+                                user_json = user.to_json()
+                                if user_json.get('email') == user_email:
+                                    if user.is_valid_password(user_pwd):
+                                        return user
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
