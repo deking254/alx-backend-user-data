@@ -51,12 +51,13 @@ class BasicAuth(Auth):
             if type(user_email) == str:
                 if user_pwd is not None:
                     if type(user_pwd) == str:
-                        users = User.search({'email': user_email})
-                        if type(users) == list:
-                            if len(users) > 0:
-                                for user in users:
-                                    if user.is_valid_password(user_pwd):
-                                        return user
+                        if User.count() > 0:
+                            users = User.search({'email': user_email})
+                            if type(users) == list:
+                                if len(users) > 0:
+                                    for user in users:
+                                        if user.is_valid_password(user_pwd):
+                                            return user
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
