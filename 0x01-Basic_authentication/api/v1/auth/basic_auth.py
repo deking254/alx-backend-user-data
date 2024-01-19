@@ -3,7 +3,7 @@
 from api.v1.auth.auth import Auth
 import base64
 from models.user import User
-from typing import TypeVar
+from typing import TypeVar, List
 
 
 class BasicAuth(Auth):
@@ -52,10 +52,11 @@ class BasicAuth(Auth):
                 if user_pwd is not None:
                     if type(user_pwd) == str:
                         users = User.search({'email': user_email})
-                        if len(users) > 0:
-                            for user in users:
-                                if user.is_valid_password(user_pwd):
-                                    return user
+                        if type(users) == list:
+                            if len(users) > 0:
+                                for user in users:
+                                    if user.is_valid_password(user_pwd):
+                                        return user
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
