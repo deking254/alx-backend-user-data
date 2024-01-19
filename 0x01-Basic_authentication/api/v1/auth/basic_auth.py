@@ -51,7 +51,7 @@ class BasicAuth(Auth):
             if type(user_email) == str:
                 if user_pwd is not None:
                     if type(user_pwd) == str:
-                        users = User.search()
+                        users = User.search({'email': user_email})
                         if len(users) > 0:
                             for user in users:
                                 user_json = user.to_json()
