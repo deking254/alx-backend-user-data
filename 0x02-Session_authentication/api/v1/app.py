@@ -46,7 +46,6 @@ def no_access(error) -> str:
 @app.before_request
 def handle_request():
     """handles the request before rendering"""
-    print((request.url))
     request.current_user = auth.current_user(request)
     if auth is not None:
         list_of_auth_endpoints = [
