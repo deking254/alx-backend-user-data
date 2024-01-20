@@ -24,7 +24,6 @@ if getenv('AUTH_TYPE') is not None:
     else:
         auth = Auth()
 
-
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -47,6 +46,7 @@ def no_access(error) -> str:
 @app.before_request
 def handle_request():
     """handles the request before rendering"""
+    print((request.url))
     request.current_user = auth.current_user(request)
     if auth is not None:
         list_of_auth_endpoints = [
@@ -62,7 +62,6 @@ def handle_request():
             else:
                 if auth.current_user(request) is None:
                     abort(403)
-
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
