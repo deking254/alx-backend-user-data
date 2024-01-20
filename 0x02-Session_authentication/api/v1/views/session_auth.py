@@ -22,7 +22,9 @@ def parameter_handler():
         if user.is_valid_password(password) is False:
             return {"error": "wrong password"}, 401
     from api.v1.app import auth
-    user = User({'email': email, 'password': password})
+    user = User()
+    user.email = email
+    user.password = password
     user.save()
     session_id = auth.create_session(user.id)
     response = make_response(user.to_json())
