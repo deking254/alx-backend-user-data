@@ -31,7 +31,9 @@ def parameter_handler():
     response.set_cookie(os.getenv('SESSION_NAME'), session_id)
     return response
 
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
 def logout():
     """destroys the current session(logs out)"""
     from api.v1.app import auth
