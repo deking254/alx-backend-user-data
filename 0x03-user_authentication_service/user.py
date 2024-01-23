@@ -2,6 +2,7 @@
 """create a SQLAlchemy model named User for a database table named users"""
 from sqlalchemy import (Column, INTEGER, VARCHAR)
 from sqlalchemy.ext.declarative import declarative_base
+import MySQLdb
 
 Base = declarative_base()
 
