@@ -37,6 +37,7 @@ class DB:
         user_object = User()
         user_object.email = email
         user_object.hashed_password = hashed_password
-        user = self._session.execute(insert(User).values(email=email, hashed_password=hashed_password))
+        user = self._session.execute(insert(User).values(email=email,
+                                     hashed_password=hashed_password))
         user_object.id = user.lastrowid
         return user_object
