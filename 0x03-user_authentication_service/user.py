@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """create a SQLAlchemy model named User for a database table named users"""
-from sqlalchemy import (Column, INT, String, MetaData)
+from sqlalchemy import (Column, INT, TEXT, String, MetaData)
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
