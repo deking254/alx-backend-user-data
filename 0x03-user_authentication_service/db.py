@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine, insert, select
+from sqlalchemy import create_engine, insert, select, update
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -19,7 +19,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=False)
+        self._engine = create_engine("sqlite:///a.db", echo=True)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -61,3 +61,9 @@ class DB:
             return first_record
         else:
             raise NoResultFound
+
+    def update_user(self, user_id: int, **args) -> None:
+        """updates the user whose id is specified"""
+        user = self.find_user_by(id=user_id)
+        if user is not None:
+            self._session.execute(update(User).where(User.id == user_id), args)
