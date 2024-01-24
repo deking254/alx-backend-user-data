@@ -5,6 +5,8 @@ from sqlalchemy import create_engine, insert, select
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 
 from user import Base
 from user import User
@@ -41,3 +43,21 @@ class DB:
                                      hashed_password=hashed_password))
         user_object.id = user.lastrowid
         return user_object
+
+    def find_user_by(self, **args):
+        """finds a user in the database according to the keyword argument"""
+        result = self._session
+        user_found = User()
+        key_argument = list(args.keys())[0]
+        found = False
+        sql = 'select * from users where {}=:{}'.format(key_argument,
+                                                        key_argument)
+        try:
+            a = result.execute(sql, args)
+        except Exception:
+            raise InvalidRequestError
+        first_record = a.first()
+        if first_record:
+            return first_record
+        else:
+            raise NoResultFound
