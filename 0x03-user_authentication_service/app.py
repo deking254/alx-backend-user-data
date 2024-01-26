@@ -47,7 +47,7 @@ def logout():
     session_id = request.cookies.get('session_id')
     if session_id is not None:
         AUTH.destroy_session(session_id)
-        return index()
+        return index(), 302
     else:
         return abort(403)
 
