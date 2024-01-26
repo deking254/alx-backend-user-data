@@ -64,7 +64,11 @@ class DB:
 
     def update_user(self, user_id: int, **args) -> None:
         """updates the user whose id is specified"""
-        user = self.find_user_by(id=user_id)
+        user = None
+        try:
+            user = self.find_user_by(id=user_id)
+        except NoResultFound:
+            pass
         if user is not None:
             try:
                 self._session.execute(update(User).where(User.id == user_id),
