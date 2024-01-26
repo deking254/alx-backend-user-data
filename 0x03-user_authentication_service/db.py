@@ -44,7 +44,7 @@ class DB:
         user_object.id = user.lastrowid
         return user_object
 
-    def find_user_by(self, **args):
+    def find_user_by(self, **args) -> User:
         """finds a user in the database according to the keyword argument"""
         result = self._session
         user_found = User()
