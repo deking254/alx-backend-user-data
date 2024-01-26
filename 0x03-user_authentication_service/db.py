@@ -66,4 +66,7 @@ class DB:
         """updates the user whose id is specified"""
         user = self.find_user_by(id=user_id)
         if user is not None:
-            self._session.execute(update(User).where(User.id == user_id), args)
+            try:
+                self._session.execute(update(User).where(User.id == user_id), args)
+            except Exception:
+                raise ValueError
