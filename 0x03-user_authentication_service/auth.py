@@ -5,6 +5,7 @@ from user import User
 from sqlalchemy import select
 from db import DB
 from uuid import uuid4
+from sqlalchemy.orm.exc import NoResultFound
 
 
 def _hash_password(password: str = None) -> bytes:
@@ -25,15 +26,14 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str):
+    def register_user(self, email: str, password: str) -> None:
         """creates a new user"""
-        users = self._db._session.execute('select * from users')
-        for user in users:
-            user_dict = dict(user)
-            if user_dict.get('email') == email:
-                raise ValueError("User {} already exists".format(email))
-        hashed_pass = _hash_password(password)
-        self._db.add_user(email, hashed_pass)
+        try:
+            user = self._db.find_user_by(email=email)
+            raise ValueError("User {} already exists".format(email))
+        except NoResultFound:
+            hashed_pass = _hash_password(password)
+            self._db.add_user(email, hashed_pass)
 
     def valid_login(self, email: str, password: str) -> bool:
         """validates the user credentials"""
