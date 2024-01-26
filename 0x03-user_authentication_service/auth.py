@@ -6,10 +6,12 @@ from sqlalchemy import select
 from db import DB
 from uuid import uuid4
 
+
 def _hash_password(password: str = None) -> bytes:
     """returns the hashed password"""
     if password is not None:
         return bcrypt.hashpw(password.encode(), bcrypt.gensalt(12))
+
 
 def _generate_uuid() -> str:
     """generates and returns uuid"""
@@ -37,7 +39,8 @@ class Auth:
         """validates the user credentials"""
         try:
             user = self._db.find_user_by(email=email)
-            a = bcrypt.checkpw(password.encode(), dict(user).get('hashed_password'))
+            a = bcrypt.checkpw(password.encode(),
+                               dict(user).get('hashed_password'))
             return a
         except Exception:
             return False
@@ -90,5 +93,6 @@ class Auth:
         """updating the user password"""
         user = self._db.find_user_by(reset_token=reset_token)
         if user is not None:
-            self._db.update_user(user.id, reset_token=None, hashed_password=_hash_password(password))
+            self._db.update_user(user.id, reset_token=None,
+                                 hashed_password=_hash_password(password))
         return None
