@@ -7,10 +7,12 @@ AUTH = Auth()
 
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET'])
 def index():
     """handles the route '/'"""
     return jsonify({"message": "Bienvenue"})
+
 
 @app.route('/users', methods=['POST'])
 def users():
@@ -20,9 +22,10 @@ def users():
         AUTH.register_user(email, password)
         payload = {"email": "<registered email>", "message": "user created"}
         payload['email'] = email
-        return  jsonify(payload)
+        return jsonify(payload)
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
+
 
 @app.route('/sessions', methods=['POST'])
 def login():
@@ -37,6 +40,7 @@ def login():
             return response
     return abort(401)
 
+
 @app.route('/sessions', methods=['DELETE'])
 def logout():
     """executes the destroy session"""
@@ -46,6 +50,7 @@ def logout():
         return index()
     else:
         return abort(403)
+
 
 @app.route('/profile', methods=['GET'])
 def profile():
@@ -57,6 +62,7 @@ def profile():
     else:
         return abort(403)
 
+
 @app.route('/reset_password', methods=['POST'])
 def get_reset_password_token():
     email = request.form.get('email')
@@ -67,13 +73,15 @@ def get_reset_password_token():
     except ValueError:
         return abort(403)
 
+
 @app.route('/reset_password', methods=['PUT'])
 def update_password():
     """does exactly what the function says"""
-    email = request.form.get("email") 
+    email = request.form.get("email")
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
     AUTH.update_password(reset_token, new_password)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
