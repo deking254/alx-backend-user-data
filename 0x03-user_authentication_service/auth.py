@@ -95,7 +95,7 @@ class Auth:
         if user is not None:
             try:
                 self._db.update_user(user.id, reset_token=None,
-                                 hashed_password=_hash_password(password))
+                                     hashed_password=_hash_password(password))
             except Exception:
                 return None
         return None
