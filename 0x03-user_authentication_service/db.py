@@ -49,7 +49,6 @@ class DB:
         result = self._session
         user_found = User()
         key_argument = list(args.keys())[0]
-        found = False
         sql = 'select * from users where {}=:{}'.format(key_argument,
                                                         key_argument)
         try:

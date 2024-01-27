@@ -56,7 +56,7 @@ class Auth:
         except NoResultFound:
             return None
 
-    def get_user_from_session_id(self, session_id: str):
+    def get_user_from_session_id(self, session_id: str) -> User:
         """takes a single session_id string argument and
         returns the corresponding User or None"""
         try:
@@ -65,7 +65,7 @@ class Auth:
         except Exception:
             return None
 
-    def destroy_session(self, user_id: int):
+    def destroy_session(self, user_id: int) -> None:
         """set the session_id of a user to None"""
         try:
             user = self._db.find_user_by(id=user_id)
@@ -79,10 +79,10 @@ class Auth:
         """generates a token and assigns to the reset_token field"""
         try:
             user = self._db.find_user_by(email=email)
-            reset_token = _generate_uuid()
+            token = _generate_uuid()
             if user is not None:
-                self._db.update_user(user.id, reset_token=reset_token)
-                return reset_token
+                self._db.update_user(user.id, reset_token=token)
+                return token
         except Exception:
             raise ValueError
 
